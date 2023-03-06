@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelHai.CS.ServerAPI", "TelHai.CS.ServerAPI\TelHai.CS.ServerAPI.csproj", "{9ABCD8F2-F398-45B9-9D65-107CF1AEB8DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelHai.CS.Client", "TelHai.CS.Client\TelHai.CS.Client.csproj", "{35CFEAD2-4483-48AC-B3AB-88721964A669}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9ABCD8F2-F398-45B9-9D65-107CF1AEB8DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ABCD8F2-F398-45B9-9D65-107CF1AEB8DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ABCD8F2-F398-45B9-9D65-107CF1AEB8DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ABCD8F2-F398-45B9-9D65-107CF1AEB8DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35CFEAD2-4483-48AC-B3AB-88721964A669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35CFEAD2-4483-48AC-B3AB-88721964A669}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35CFEAD2-4483-48AC-B3AB-88721964A669}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35CFEAD2-4483-48AC-B3AB-88721964A669}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B487E074-AFA1-4F4E-931E-17550AAA23A3}
+	EndGlobalSection
+EndGlobal

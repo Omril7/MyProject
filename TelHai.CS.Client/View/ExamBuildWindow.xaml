@@ -1,0 +1,171 @@
+﻿<Window x:Class="TelHai.CS.Client.View.ExamBuildWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TelHai.CS.Client.View"
+        mc:Ignorable="d" WindowStartupLocation ="CenterScreen"
+        Title="Create Exam" Height="550" Width="800" Icon="/View/icon.png">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/View/background.jpg"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="12*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="My Exam" FontSize="25" FontWeight="Medium" Margin="45,0,0,0"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="My Questions" FontSize="20" FontWeight="Medium"
+                       HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Center"
+               FontSize="20" FontWeight="Medium" Margin="15,0,0,0"/>
+        <TextBox Name="txtExamName" FontSize="20" Foreground="Black" CaretBrush="DarkGray" 
+                 BorderBrush="DarkGray" Height="30" VerticalContentAlignment="Center" Margin="10"
+                 Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Background="White"
+                 Text="{Binding Name, Mode=TwoWay}" TextChanged="textChanged"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="ID:" HorizontalAlignment="Left" VerticalAlignment="Center"
+               FontSize="20" FontWeight="Medium" Margin="15,0,0,0"/>
+        <TextBox Name="txtExamId" Foreground="Black" CaretBrush="DarkGray" 
+                 BorderBrush="DarkGray" Height="30" VerticalContentAlignment="Center" Margin="10"
+                 Grid.Row="2" Grid.Column="1" IsEnabled="False" Background="Gray" VerticalAlignment="Bottom"
+                 Text="{Binding _id, Mode=TwoWay}"/>
+
+        <Label Grid.Row="3" Grid.Column="0" Content="Date:" HorizontalAlignment="Left" VerticalAlignment="Center"
+               FontSize="20" FontWeight="Medium" Margin="15,0,0,0"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" VerticalAlignment="Bottom">
+            <TextBox Name="txtExamDay" FontSize="20" Foreground="Black" CaretBrush="DarkGray" 
+                     BorderBrush="DarkGray" Height="30" Width="40" VerticalContentAlignment="Center" Margin="10"
+                     Text="{Binding DateDay, Mode=TwoWay}" TextChanged="textChanged" Background="White"/>
+            <TextBlock Text="/" FontSize="30" FontWeight="Medium" Margin="10" VerticalAlignment="Bottom"/>
+            <TextBox Name="txtExamMonth" FontSize="20" Foreground="Black" CaretBrush="DarkGray" 
+                     BorderBrush="DarkGray" Height="30" Width="40" VerticalContentAlignment="Center" Margin="10"
+                     Text="{Binding DateMonth, Mode=TwoWay}" TextChanged="textChanged" Background="White"/>
+            <TextBlock Text="/" FontSize="30" FontWeight="Medium" Margin="10" VerticalAlignment="Bottom"/>
+            <TextBox Name="txtExamYear" FontSize="20" Foreground="Black" CaretBrush="DarkGray" 
+                     BorderBrush="DarkGray" Height="30" Width="80" VerticalContentAlignment="Center" Margin="10"
+                     Text="{Binding DateYear, Mode=TwoWay}" TextChanged="textChanged" Background="White"/>
+        </StackPanel>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="Teacher:" HorizontalAlignment="Left" VerticalAlignment="Center"
+               FontSize="20" FontWeight="Medium" Margin="15,0,0,0"/>
+        <TextBox Name="txtExamTeacher" FontSize="20" Foreground="Black" CaretBrush="DarkGray" 
+                 BorderBrush="DarkGray" Height="30" VerticalContentAlignment="Center" Margin="10"
+                 Grid.Row="4" Grid.Column="1" VerticalAlignment="Bottom" Text="{Binding TeacherName, Mode=TwoWay}"
+                 TextChanged="textChanged" Background="White"/>
+
+        <Label Grid.Row="5" Grid.Column="0" Content="Start Time:" HorizontalAlignment="Left" VerticalAlignment="Center"
+               FontSize="20" FontWeight="Medium" Margin="15,0,0,0"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" VerticalAlignment="Bottom">
+            <TextBox Name="txtExamStartHour" FontSize="20" Foreground="Black" CaretBrush="DarkGray" 
+                     BorderBrush="DarkGray" Height="30" Width="40" VerticalContentAlignment="Center" Margin="10"
+                     Text="{Binding DateHour, Mode=TwoWay}" TextChanged="textChanged" Background="White"/>
+            <TextBlock Text=":" FontSize="30" FontWeight="Medium" Margin="10" VerticalAlignment="Bottom"/>
+            <TextBox Name="txtExamStartMinute" FontSize="20" Foreground="Black" CaretBrush="DarkGray" 
+                     BorderBrush="DarkGray" Height="30" Width="40" VerticalContentAlignment="Center" Margin="10"
+                     Text="{Binding DateMinute, Mode=TwoWay}" TextChanged="textChanged" Background="White"/>
+        </StackPanel>
+
+        <Label Grid.Row="6" Grid.Column="0" Content="Total Time:" HorizontalAlignment="Left" VerticalAlignment="Center"
+               FontSize="20" FontWeight="Medium" Margin="15,0,0,0"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" VerticalAlignment="Bottom">
+            <TextBox Name="txtExamTotalTime" FontSize="20" Foreground="Black" CaretBrush="DarkGray" 
+                     BorderBrush="DarkGray" Height="30" Width="40" VerticalContentAlignment="Center" Margin="10"
+                     Text="{Binding TotalTime, Mode=TwoWay}" TextChanged="textChanged" Background="White"/>
+            <TextBlock Text="Hours" FontSize="20" FontWeight="Medium" Margin="10" VerticalAlignment="Bottom"/>
+        </StackPanel>
+
+
+        <Label Grid.Row="7" Grid.Column="0" Content="Random Order:" HorizontalAlignment="Left" VerticalAlignment="Center"
+               FontSize="20" FontWeight="Medium" Margin="15,0,0,0"/>
+        <CheckBox Name="IsRand" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" 
+                  FontSize="25" FontWeight="Medium" Width="25" IsChecked="{Binding IsOrderRandom, Mode=TwoWay}" Checked="IsRand_Checked" 
+                  Background="White"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="2" HorizontalAlignment="Center">
+            <Button Name="addQuestionBtn" Content="Add Question" Margin="5" Foreground="White" Click="addQuestionBtn_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#462AD8"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="100" Height="30" CornerRadius="20" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Name="removeQuestionBtn" Content="Remove Question" Margin="5" Foreground="White" Click="removeQuestionBtn_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#462AD8"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="100" Height="30" CornerRadius="20" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Name="addExamBtn" Content="Add Exam" Margin="5" Foreground="White" Click="addExamBtn_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#462AD8"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="100" Height="30" CornerRadius="20" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+
+        <ListBox Name="questionsListBox" Grid.Row="1" Grid.Column="2" Grid.RowSpan="6" BorderThickness="2" Margin="10"
+                 Background="White">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Height" Value="30" />
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+    </Grid>
+</Window>

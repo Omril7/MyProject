@@ -223,8 +223,6 @@ namespace TelHai.CS.Client.View
                 MessageBoxResult res = MessageBox.Show(msg, "WAIT", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (res == MessageBoxResult.Yes)
                 {
-                    string message = "Your grade is " + grade._grade.ToString();
-                    MessageBox.Show(message);
                     Close();
                 }
             }
@@ -234,8 +232,6 @@ namespace TelHai.CS.Client.View
                 MessageBoxResult res = MessageBox.Show(msg, "WAIT", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (res == MessageBoxResult.Yes)
                 {
-                    string message = "Your grade is " + grade._grade.ToString();
-                    MessageBox.Show(message);
                     Close();
                 }
             }

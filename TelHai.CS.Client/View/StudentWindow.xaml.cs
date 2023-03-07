@@ -60,20 +60,28 @@ namespace TelHai.CS.Client.View
             {
                 Exam exam = (Exam)this.examsListBox.SelectedItem;
 
+                if(exam == null)
+                {
+                    return;
+                }
+                
                 // CHECk if the time is right for exam
-
-                /*
-                int hour = (int)(exam.TotalTime % 1);
+                int hour = (int)(exam.TotalTime);
                 int minute = (int)((exam.TotalTime - hour) * 60);
-                minute += exam.DateMinute;
+                hour += (int)exam.DateHour;
+                minute += (int)exam.DateMinute;
                 if(minute >= 60)
                 {
                     minute -= 60;
                     hour++;
                 }
+                if(hour >= 24)
+                {
+                    hour = 23;
+                }
 
-                DateTime examDateStart = new DateTime(exam.DateYear, exam.DateMonth, exam.DateDay, exam.DateHour, exam.DateMinute, 0);
-                DateTime examDateEnd = new DateTime(exam.DateYear, exam.DateMonth, exam.DateDay, hour , minute, 0);
+                DateTime examDateStart = new DateTime((int)exam.DateYear, (int)exam.DateMonth, (int)exam.DateDay, (int)exam.DateHour, (int)exam.DateMinute, 0);
+                DateTime examDateEnd = new DateTime((int)exam.DateYear, (int)exam.DateMonth, (int)exam.DateDay, hour, minute, 0);
                 DateTime now = DateTime.Now;
                 if(DateTime.Compare(now, examDateStart) < 0) // Too Early
                 {
@@ -87,7 +95,7 @@ namespace TelHai.CS.Client.View
                     MessageBox.Show(msg, "WAIT", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-                */
+
                 ExamWindow ew = new ExamWindow(exam, StudentName, Id);
                 ew.ShowDialog();
             }

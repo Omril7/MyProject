@@ -29,6 +29,11 @@ namespace TelHai.CS.Client.View
             string user = this.txtUser.Text.ToString();
             string pass = this.txtPass.Password.ToString();
 
+            if(user == string.Empty || pass == string.Empty)
+            {
+                MessageBox.Show("Please Enter User & Password!");
+                return;
+            }
             if (studentButton.IsChecked.Value)
             {
                 StudentWindow sw = new StudentWindow();

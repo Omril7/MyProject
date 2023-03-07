@@ -70,8 +70,14 @@
             </Button>
         </StackPanel>
 
-        <TextBlock Name="txtTitle" Grid.Row="1" FontSize="20" FontWeight="Medium" Margin="0,0,0,0"
-                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
+        <StackPanel Grid.Row="2" Grid.Column="0">
+            <TextBlock Name="txtTitle" FontSize="20" FontWeight="Medium" Margin="0,0,0,0"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"
+                   TextWrapping="Wrap" TextAlignment="Center"/>
+            <ListBox Name="answersListBox" Margin="100" BorderThickness="0" 
+                 SelectionChanged="answersListBox_SelectionChanged" Background="Transparent"/>
+        </StackPanel>
+        
 
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" 
                     Height="30" >
@@ -96,10 +102,6 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-
-        <ListBox Name="answersListBox" Grid.Row="2" Margin="100" BorderThickness="0" 
-                 SelectionChanged="answersListBox_SelectionChanged" Background="Transparent">
-        </ListBox>
 
         <Button Name="finishExamBtn" Grid.Row="3" Grid.Column="1" Content="Finish" Margin="10,5,5,5" Foreground="White" Click="finishExamBtn_Click">
             <Button.Style>

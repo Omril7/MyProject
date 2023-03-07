@@ -88,6 +88,9 @@
             </ListBox.Resources>
         </ListBox>
 
+        <CheckBox Name="IsRand" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                  Margin="10,0,0,0" FontSize="15" FontWeight="Medium" Width="140" Background="White" Content="Random Answers"/>
+
         <Button Grid.Row="4" Grid.Column="1" Name="addQuestionBtn" Content="Add Question" FontSize="20" FontWeight="Medium" Margin="10,10,10,10" Foreground="White" Click="addQuestionBtn_Click">
             <Button.Style>
                 <Style TargetType="Button">

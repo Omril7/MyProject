@@ -74,11 +74,11 @@ namespace TelHai.CS.Client.View
             if (this.examsListBox.Items.Count > 0 && this.examsListBox.SelectedIndex > -1)
             {
                 Exam exam = (Exam)this.examsListBox.SelectedItem;
-                ExamBuildWindow examInitWindow = new ExamBuildWindow(exam);
-                examInitWindow.ShowDialog();
-                if (examInitWindow.Use)
+                ExamBuildWindow examBuildWindow = new ExamBuildWindow(exam);
+                examBuildWindow.ShowDialog();
+                if (examBuildWindow.Use)
                 {
-                    exam = examInitWindow.MyExam;
+                    exam = examBuildWindow.MyExam;
                     await HttpExamsRepository.Instance.UpdateExamAsync(exam.Id, exam);
                 }
                 // Reload 

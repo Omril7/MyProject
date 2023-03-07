@@ -64,6 +64,10 @@ namespace TelHai.CS.Client.View
                 return;
             }
             MyQuestion.Text = this.txtQuestion.Text;
+            if (this.IsRand.IsChecked == true)
+            {
+                MyQuestion.IsRand = true;
+            }
             foreach (var item in this.optionsListBox.Items)
             {
                 string? text = item.ToString();

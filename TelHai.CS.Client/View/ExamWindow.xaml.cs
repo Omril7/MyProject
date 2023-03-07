@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using TelHai.CS.Client.Models;
+using TelHai.CS.Client.Repositories;
 
 namespace TelHai.CS.Client.View
 {
@@ -21,35 +22,39 @@ namespace TelHai.CS.Client.View
     /// </summary>
     public partial class ExamWindow : Window
     {
+        Grade grade { get; set; }
         public Exam exam { get; set; }
-        public string Student { get; set; }
-        public string Id { get; set; }
         public List<int> Answers { get; set; }
         public int Answered { get; set; }
-        public double Grade { get; set; }
         private DispatcherTimer timer { get; set; }
         private TimeSpan remainingTime { get; set; }
 
-        public ExamWindow(Exam getExam, string student, string id)
+        public ExamWindow(Exam getExam, string studentName, string studentId)
         {
             InitializeComponent();
             DataContext = this;
             this.exam = getExam;
             Answers = new List<int>();
-            this.Student = student;
-            this.Id = id;
+            grade = new Grade { StudentId = studentId, StudentName = studentName , ExamId = exam._id , _grade = 0};
+            this.txtStudent.Text = studentName;
+            this.txtId.Text = studentId;
             this.Loaded += Load;
         }
 
         private void Load(object sender, RoutedEventArgs e)
         {
-            if(this.exam.IsOrderRandom == true) // order of questions & their answers will randomize
+            if(this.exam.IsOrderRandom == true) // order of questions will randomize
             {
                 Random rnd = new Random();
                 exam.Questions = exam.Questions.Select(x => new { value = x, order = rnd.Next() })
                     .OrderBy(x => x.order).Select(x => x.value).ToList();
-                foreach(var question in exam.Questions)
+            }
+
+            foreach (var question in exam.Questions)
+            {
+                if (question.IsRand == true) // order of answers will randomize
                 {
+                    Random rnd = new Random();
                     question.Answers = question.Answers.Select(x => new { value = x, order = rnd.Next() })
                         .OrderBy(x => x.order).Select(x => x.value).ToList();
                 }
@@ -168,22 +173,49 @@ namespace TelHai.CS.Client.View
             item.Background = new SolidColorBrush(Colors.LightGreen);
         }
 
-        private void finishExamBtn_Click(object sender, RoutedEventArgs e)
+        private async void finishExamBtn_Click(object sender, RoutedEventArgs e)
         {
             int totalTrue = 0;
             for (int i = 0; i < exam.Questions.Count; i++)
             {
-                if (this.Answers[i] == -1)
+                string correctAnswer = string.Empty;
+                foreach (var ans in exam.Questions[i].Answers)
                 {
+                    if (ans.IsCorrect)
+                    {
+                        correctAnswer = ans.Text;
+                    }
+                }
+                if (this.Answers[i] == -1) // not answered
+                {
+                    Error err = new Error
+                    {
+                        QuestionTitle = exam.Questions[i].Text,
+                        ChosenAnswer = "Not selected answer",
+                        CorrectAnswer = correctAnswer
+                    };
+                    grade.Errors.Add(err);
                     continue;
                 }
-                if (exam.Questions[i].Answers[this.Answers[i]].IsCorrect)
+                if (exam.Questions[i].Answers[this.Answers[i]].IsCorrect) // correct Answer
                 {
                     totalTrue += 1;
                 }
+                else // wrong answer
+                {
+                    Error err = new Error
+                    {
+                        QuestionTitle = exam.Questions[i].Text,
+                        ChosenAnswer = exam.Questions[i].Answers[this.Answers[i]].Text,
+                        CorrectAnswer = correctAnswer
+                    };
+                    grade.Errors.Add(err);
+                }
             }
-            Grade = ((double)totalTrue / (double)Answers.Count) * 100;
-            Grade = Math.Round(Grade, 2);
+            grade._grade = ((double)totalTrue / (double)Answers.Count) * 100;
+            grade._grade = Math.Round(grade._grade, 2);
+
+            await HttpExamsRepository.Instance.CreateGradeAsync(exam.Id, grade);
 
             if (Answered != exam.Questions.Count) // Too Early
             {
@@ -191,7 +223,7 @@ namespace TelHai.CS.Client.View
                 MessageBoxResult res = MessageBox.Show(msg, "WAIT", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (res == MessageBoxResult.Yes)
                 {
-                    string message = "Your grade is " + Grade.ToString();
+                    string message = "Your grade is " + grade._grade.ToString();
                     MessageBox.Show(message);
                     Close();
                 }
@@ -202,7 +234,7 @@ namespace TelHai.CS.Client.View
                 MessageBoxResult res = MessageBox.Show(msg, "WAIT", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (res == MessageBoxResult.Yes)
                 {
-                    string message = "Your grade is " + Grade.ToString();
+                    string message = "Your grade is " + grade._grade.ToString();
                     MessageBox.Show(message);
                     Close();
                 }

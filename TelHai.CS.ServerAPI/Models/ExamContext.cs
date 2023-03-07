@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using static TelHai.CS.ServerAPI.Models.Question;
 
 namespace TelHai.CS.ServerAPI.Models
@@ -12,6 +13,8 @@ namespace TelHai.CS.ServerAPI.Models
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<Grade> Grades { get; set; }
+        public DbSet<Error> Errors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +28,15 @@ namespace TelHai.CS.ServerAPI.Models
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Grade>()
+                .HasMany(g => g.Errors)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Exam>()
+                .HasMany(e => e.Grades)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 

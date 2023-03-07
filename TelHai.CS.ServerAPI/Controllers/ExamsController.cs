@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +10,7 @@ using TelHai.CS.ServerAPI.Models;
 
 namespace TelHai.CS.ServerAPI.Controllers
 {
-    [Route("API/Exam")]
+    [Route("API/Exams")]
     [ApiController]
     public class ExamsController : ControllerBase
     {
@@ -20,12 +21,16 @@ namespace TelHai.CS.ServerAPI.Controllers
             _context = context;
         }
 
-        // GET: API/Exam
+        /*
+         * Exams
+        */
+        // GET: API/Exams
         [HttpGet]
         public async Task<ActionResult<List<Exam>>> GetExams()
         {
             return await _context.Exams.Include(e => e.Questions)
                                        .ThenInclude(q => q.Answers)
+                                       /*
                                        .Select(e => new Exam
                                        {
                                            Id = e.Id,
@@ -45,14 +50,16 @@ namespace TelHai.CS.ServerAPI.Controllers
                                                Text = q.Text,
                                                Answers = q.Answers
                                            }).ToList()
-                                       }).ToListAsync();
+                                       })
+                                       */
+                                       .ToListAsync();
         }
 
-        // GET: API/Exam/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Exam>> GetExam(int id)
+        // GET: API/Exams/{examId}
+        [HttpGet("{examId}")]
+        public async Task<ActionResult<Exam>> GetExam(int examId)
         {
-            var exam = await _context.Exams.Include(e => e.Questions).ThenInclude(q => q.Answers).FirstOrDefaultAsync(e => e.Id == id);
+            var exam = await _context.Exams.Include(e => e.Questions).ThenInclude(q => q.Answers).FirstOrDefaultAsync(e => e.Id == examId);
 
             if (exam == null)
             {
@@ -62,11 +69,11 @@ namespace TelHai.CS.ServerAPI.Controllers
             return exam;
         }
 
-        // PUT: API/Exam/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutExam(int id, Exam exam)
+        // PUT: API/Exams/{examId}
+        [HttpPut("{examId}")]
+        public async Task<IActionResult> PutExam(int examId, Exam exam)
         {
-            if (id != exam.Id)
+            if (examId != exam.Id)
             {
                 return BadRequest();
             }
@@ -79,7 +86,7 @@ namespace TelHai.CS.ServerAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ExamExists(id))
+                if (!ExamExists(examId))
                 {
                     return NotFound();
                 }
@@ -92,7 +99,7 @@ namespace TelHai.CS.ServerAPI.Controllers
             return NoContent();
         }
 
-        // POST: API/Exam
+        // POST: API/Exams
         [HttpPost]
         public async Task<ActionResult<Exam>> PostExam(Exam exam)
         {
@@ -102,11 +109,11 @@ namespace TelHai.CS.ServerAPI.Controllers
             return CreatedAtAction("GetExam", new { id = exam.Id }, exam);
         }
 
-        // DELETE: API/Exam/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteExam(int id)
+        // DELETE: API/Exams/{examId}
+        [HttpDelete("{examId}")]
+        public async Task<IActionResult> DeleteExam(int examId)
         {
-            var exam = await _context.Exams.FindAsync(id);
+            var exam = await _context.Exams.FindAsync(examId);
             if (exam == null)
             {
                 return NotFound();
@@ -116,6 +123,69 @@ namespace TelHai.CS.ServerAPI.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        /*
+         * Questions
+        */
+        // POST: API/Exams/{examId}/Questions
+        [HttpPost("{examId}/Questions")]
+        public async Task<ActionResult<Question>> PostQuestion(int examId, Question question)
+        {
+            var exam = await _context.Exams.FindAsync(examId);
+            if (exam == null)
+            {
+                return NotFound();
+            }
+            exam.Questions.Add(question);
+
+            _context.Questions.Add(question);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetQuestion", new { id = question.Id }, question);
+        }
+
+        // DELETE: API/Exams/{examId}/Questions/{questionId}
+        [HttpDelete("{examId}/Questions/{questionId}")]
+        public async Task<IActionResult> DeleteQuestion(int examId, int questionId)
+        {
+            var exam = await _context.Exams.Include(e => e.Questions).FirstOrDefaultAsync(e => e.Id == examId);
+            if (exam == null)
+            {
+                return NotFound();
+            }
+
+            var question = exam.Questions.FirstOrDefault(q => q.Id == questionId);
+            if (question == null)
+            {
+                return NotFound();
+            }
+
+            exam.Questions.Remove(question);
+            _context.Questions.Remove(question);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        /*
+         * Grades
+        */
+        // POST: API/Exams/{examId}/Grades
+        [HttpPost("{examId}/Grades")]
+        public async Task<ActionResult<Grade>> PostGrade(int examId, Grade grade)
+        {
+            var exam = await _context.Exams.FindAsync(examId);
+            if (exam == null)
+            {
+                return NotFound();
+            }
+            exam.Grades.Add(grade);
+
+            _context.Grades.Add(grade);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetGrade", new { id = grade.Id }, grade);
         }
 
         private bool ExamExists(int id)

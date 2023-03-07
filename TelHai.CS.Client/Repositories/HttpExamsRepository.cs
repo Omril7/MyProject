@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Xml.Linq;
 using TelHai.CS.Client.Models;
 
@@ -39,9 +41,12 @@ namespace TelHai.CS.Client.Repositories
             }
         }
 
+        /*
+         * Exams
+        */
         public async Task<List<Exam>> GetAllExamsAsync()
         {
-            var response = await clientApi.GetAsync("API/Exam");
+            var response = await clientApi.GetAsync("API/Exams");
             if (!response.IsSuccessStatusCode)
             {
                 return null;
@@ -51,7 +56,7 @@ namespace TelHai.CS.Client.Repositories
 
         public async Task<Exam> GetExamAsync(int id)
         {
-            var response = await clientApi.GetAsync($"API/Exam/{id}");
+            var response = await clientApi.GetAsync($"API/Exams/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -63,7 +68,7 @@ namespace TelHai.CS.Client.Repositories
 
         public async Task<Exam> CreateExamAsync(Exam exam)
         {
-            var response = await clientApi.PostAsJsonAsync("API/Exam", exam);
+            var response = await clientApi.PostAsJsonAsync("API/Exams", exam);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -75,16 +80,54 @@ namespace TelHai.CS.Client.Repositories
 
         public async Task<bool> UpdateExamAsync(int id, Exam exam)
         {
-            var response = await clientApi.PutAsJsonAsync($"API/Exam/{id}", exam);
+            var response = await clientApi.PutAsJsonAsync($"API/Exams/{id}", exam);
 
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteExamAsync(int id)
         {
-            var response = await clientApi.DeleteAsync($"API/Exam/{id}");
+            var response = await clientApi.DeleteAsync($"API/Exams/{id}");
 
             return response.IsSuccessStatusCode;
         }
+
+        /*
+         * Questions
+        */
+        public async Task<Question> CreateQuestionAsync(int examId, Question question)
+        {
+            var response = await clientApi.PostAsJsonAsync($"API/Exams/{examId}/Questions", question);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            return await response.Content.ReadFromJsonAsync<Question>();
+        }
+
+        public async Task<bool> DeleteQuestionAsync(int examId, int questionId)
+        {
+            var response = await clientApi.DeleteAsync($"API/Exams/{examId}/Questions/{questionId}");
+
+            return response.IsSuccessStatusCode;
+        }
+
+        /*
+         * Grades
+        */
+        public async Task<Grade> CreateGradeAsync(int examId, Grade grade)
+        {
+            var response = await clientApi.PostAsJsonAsync($"api/Exams/{examId}/Grades", grade);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            return await response.Content.ReadFromJsonAsync<Grade>();
+        }
+
     }
 }

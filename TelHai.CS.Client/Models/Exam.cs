@@ -100,6 +100,7 @@ namespace TelHai.CS.Client.Models
         }
         public bool? IsOrderRandom { get; set; }
         public List<Question> Questions { get; set; }
+        public List<Grade> Grades { get; set; }
 
         public Exam() : this("Exam from API", DateTime.Now.Minute, DateTime.Now.Hour, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, "", 1, false, new List<Question>()) { }
         public Exam(string name, int minute, int hour, int day, int month, int year, string teacherName, double totalTime, bool isOrderRandom, List<Question> questions)
@@ -115,6 +116,7 @@ namespace TelHai.CS.Client.Models
             TotalTime = totalTime;
             IsOrderRandom = isOrderRandom;
             Questions = questions;
+            Grades = new List<Grade>();
         }
         public override string ToString()
         {

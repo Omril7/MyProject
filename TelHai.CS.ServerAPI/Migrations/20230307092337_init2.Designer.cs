@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TelHai.CS.ServerAPI.Models;
 
@@ -11,9 +12,11 @@ using TelHai.CS.ServerAPI.Models;
 namespace TelHai.CS.ServerAPI.Migrations
 {
     [DbContext(typeof(ExamContext))]
-    partial class ExamContextModelSnapshot : ModelSnapshot
+    [Migration("20230307092337_init2")]
+    partial class init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,36 +48,6 @@ namespace TelHai.CS.ServerAPI.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("Answers");
-                });
-
-            modelBuilder.Entity("TelHai.CS.ServerAPI.Models.Error", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ChosenAnswer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CorrectAnswer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("GradeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("QuestionTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GradeId");
-
-                    b.ToTable("Errors");
                 });
 
             modelBuilder.Entity("TelHai.CS.ServerAPI.Models.Exam", b =>
@@ -122,39 +95,6 @@ namespace TelHai.CS.ServerAPI.Migrations
                     b.ToTable("Exams");
                 });
 
-            modelBuilder.Entity("TelHai.CS.ServerAPI.Models.Grade", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ExamId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ExamId1")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StudentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StudentName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("_grade")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExamId1");
-
-                    b.ToTable("Grades");
-                });
-
             modelBuilder.Entity("TelHai.CS.ServerAPI.Models.Question", b =>
                 {
                     b.Property<int>("Id")
@@ -188,22 +128,6 @@ namespace TelHai.CS.ServerAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TelHai.CS.ServerAPI.Models.Error", b =>
-                {
-                    b.HasOne("TelHai.CS.ServerAPI.Models.Grade", null)
-                        .WithMany("Errors")
-                        .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TelHai.CS.ServerAPI.Models.Grade", b =>
-                {
-                    b.HasOne("TelHai.CS.ServerAPI.Models.Exam", null)
-                        .WithMany("Grades")
-                        .HasForeignKey("ExamId1")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("TelHai.CS.ServerAPI.Models.Question", b =>
                 {
                     b.HasOne("TelHai.CS.ServerAPI.Models.Exam", null)
@@ -214,14 +138,7 @@ namespace TelHai.CS.ServerAPI.Migrations
 
             modelBuilder.Entity("TelHai.CS.ServerAPI.Models.Exam", b =>
                 {
-                    b.Navigation("Grades");
-
                     b.Navigation("Questions");
-                });
-
-            modelBuilder.Entity("TelHai.CS.ServerAPI.Models.Grade", b =>
-                {
-                    b.Navigation("Errors");
                 });
 
             modelBuilder.Entity("TelHai.CS.ServerAPI.Models.Question", b =>

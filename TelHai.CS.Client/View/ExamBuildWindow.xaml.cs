@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TelHai.CS.Client.Models;
+using TelHai.CS.Client.Repositories;
 
 namespace TelHai.CS.Client.View
 {
@@ -84,7 +85,7 @@ namespace TelHai.CS.Client.View
             this.Close();
         }
 
-        private void addQuestionBtn_Click(object sender, RoutedEventArgs e)
+        private async void addQuestionBtn_Click(object sender, RoutedEventArgs e)
         {
             QuestionWindow questionWindow = new QuestionWindow();
             questionWindow.ShowDialog();
@@ -92,13 +93,15 @@ namespace TelHai.CS.Client.View
             {
                 this.questionsListBox.Items.Add(questionWindow.MyQuestion);
                 Use = true;
+                await HttpExamsRepository.Instance.CreateQuestionAsync(MyExam.Id, questionWindow.MyQuestion);
             }
         }
 
-        private void removeQuestionBtn_Click(object sender, RoutedEventArgs e)
+        private async void removeQuestionBtn_Click(object sender, RoutedEventArgs e)
         {
             if (this.questionsListBox.Items.Count > 0)
             {
+                await HttpExamsRepository.Instance.DeleteQuestionAsync(MyExam.Id, ((Question)this.questionsListBox.SelectedItem).Id);
                 this.questionsListBox.Items.Remove(this.questionsListBox.SelectedItem);
                 this.questionsListBox.SelectedIndex = 0;
                 Use = true;

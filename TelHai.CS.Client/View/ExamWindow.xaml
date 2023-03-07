@@ -22,9 +22,9 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Margin="10">
-            <TextBlock Text="{Binding Student}" VerticalAlignment="Center" FontSize="20" Foreground="Black"/>
+            <TextBlock Name="txtStudent" Text="{Binding}" VerticalAlignment="Center" FontSize="20" Foreground="Black"/>
             <TextBlock Text=", " VerticalAlignment="Center" FontSize="20" Foreground="Black"/>
-            <TextBlock Text="{Binding Id}" VerticalAlignment="Center" FontSize="20" Foreground="Black"/>
+            <TextBlock Name="txtId" Text="{Binding}" VerticalAlignment="Center" FontSize="20" Foreground="Black"/>
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">

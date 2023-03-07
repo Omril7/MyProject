@@ -21,7 +21,8 @@ namespace TelHai.CS.Client.Models
         }
         public override string ToString()
         {
-            return _grade.ToString();
+            string ret = StudentId + ", " + StudentName;
+            return ret;
         }
     }
 }

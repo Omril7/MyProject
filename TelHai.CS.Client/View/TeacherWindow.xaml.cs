@@ -92,14 +92,23 @@ namespace TelHai.CS.Client.View
             }
             else
             {
-                MessageBox.Show("There is no Exams to Update!");
+                MessageBox.Show("Please select Exam!");
             }
         }
 
-        private void statsExamBtn_Click(object sender, RoutedEventArgs e)
+        private async void statsExamBtn_Click(object sender, RoutedEventArgs e)
         {
-            string message = "Now need to see statistics about " + this.examsListBox.SelectedItem.ToString();
-            MessageBox.Show(message);
+            if (this.examsListBox.Items.Count > 0 && this.examsListBox.SelectedIndex > -1)
+            {
+                Exam exam = (Exam)this.examsListBox.SelectedItem;
+                exam = await HttpExamsRepository.Instance.GetExamAsync(exam.Id);
+                StatsWindow statsWindow = new StatsWindow(exam);
+                statsWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Please select Exam!");
+            }
         }
 
     }

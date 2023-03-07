@@ -59,7 +59,7 @@ namespace TelHai.CS.ServerAPI.Controllers
         [HttpGet("{examId}")]
         public async Task<ActionResult<Exam>> GetExam(int examId)
         {
-            var exam = await _context.Exams.Include(e => e.Questions).ThenInclude(q => q.Answers).FirstOrDefaultAsync(e => e.Id == examId);
+            var exam = await _context.Exams.Include(e => e.Questions).ThenInclude(q => q.Answers).Include(e => e.Grades).ThenInclude(g => g.Errors).FirstOrDefaultAsync(e => e.Id == examId);
 
             if (exam == null)
             {

@@ -12,5 +12,10 @@ namespace TelHai.CS.ServerAPI.Models
         public string QuestionTitle { get; set; }
         public string ChosenAnswer { get; set; }
         public string CorrectAnswer { get; set; }
+        
+        public override string ToString()
+        {
+            return QuestionTitle;
+        }
     }
 }

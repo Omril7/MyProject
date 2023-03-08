@@ -39,5 +39,4 @@ namespace TelHai.CS.ServerAPI.Models
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
-
 }

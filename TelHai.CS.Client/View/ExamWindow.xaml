@@ -29,7 +29,6 @@
 
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Label x:Name="timeLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
-
             <Button Name="prevQuestion" Content="&lt;" Margin="10,5,5,5" Foreground="White" Click="prevQuestion_Click">
                 <Button.Style>
                     <Style TargetType="Button">
@@ -71,14 +70,13 @@
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="0">
-            <TextBlock Name="txtTitle" FontSize="20" FontWeight="Medium" Margin="0,0,0,0"
+            <TextBlock Name="txtTitle" FontSize="20" FontWeight="Medium" Margin="10"
                    HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"
-                   TextWrapping="Wrap" TextAlignment="Center"/>
-            <ListBox Name="answersListBox" Margin="100" BorderThickness="0" 
+                   TextWrapping="Wrap" TextAlignment="Center" Width="450"/>
+            <ListBox Name="answersListBox" Margin="20" BorderThickness="0" Width="450"
                  SelectionChanged="answersListBox_SelectionChanged" Background="Transparent"/>
         </StackPanel>
         
-
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" 
                     Height="30" >
             <TextBlock FontSize="15" Margin="0,0,0,0" VerticalAlignment="Center" 
@@ -91,17 +89,15 @@
                        Text="{Binding Answered}" Foreground="Green" FontWeight="Bold"/>
         </StackPanel>
 
-
         <ListBox Name="questionsListBox" Grid.Column="1" Grid.Row="2" Margin="10" Foreground="Black"
                  SelectionChanged="questionsListBox_SelectionChanged" Background="White">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                               Height="40" TextAlignment="Center" FontSize="20"/>
+                               Height="40" TextAlignment="Justify"  FontSize="15" TextWrapping="Wrap"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
 
         <Button Name="finishExamBtn" Grid.Row="3" Grid.Column="1" Content="Finish" Margin="10,5,5,5" Foreground="White" Click="finishExamBtn_Click">
             <Button.Style>

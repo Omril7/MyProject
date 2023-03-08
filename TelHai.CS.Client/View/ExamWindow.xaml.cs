@@ -105,6 +105,7 @@ namespace TelHai.CS.Client.View
             {
                 foreach (var item in currQuestion.Answers)
                 {
+                    //RadioButton rb = new RadioButton { Content = new TextBlock { Text = item.Text, TextWrapping = TextWrapping.Wrap}, GroupName = currQuestion.Text };
                     RadioButton rb = new RadioButton { Content = item, GroupName = currQuestion.Text };
                     list.Add(rb);
                 }

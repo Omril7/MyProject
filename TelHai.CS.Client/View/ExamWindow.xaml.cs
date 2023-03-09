@@ -24,7 +24,7 @@ namespace TelHai.CS.Client.View
     {
         Grade grade { get; set; }
         public Exam exam { get; set; }
-        public List<int> Answers { get; set; }
+        public List<string> Answers { get; set; }
         public int Answered { get; set; }
         private DispatcherTimer timer { get; set; }
         private TimeSpan remainingTime { get; set; }
@@ -34,7 +34,7 @@ namespace TelHai.CS.Client.View
             InitializeComponent();
             DataContext = this;
             this.exam = getExam;
-            Answers = new List<int>();
+            Answers = new List<string>();
             grade = new Grade { StudentId = studentId, StudentName = studentName , ExamId = exam._id , _grade = 0};
             this.txtStudent.Text = studentName;
             this.txtId.Text = studentId;
@@ -59,15 +59,17 @@ namespace TelHai.CS.Client.View
                         .OrderBy(x => x.order).Select(x => x.value).ToList();
                 }
             }
+            
             for (int i = 0; i < this.exam.Questions.Count; i++)
             {
-                Answers.Add(-1);
+                Answers.Add(string.Empty);
             }
             this.questionsListBox.ItemsSource = exam.Questions;
             this.questionsListBox.SelectedIndex = 0;
             this.txtNumOfQuestions.Text = exam.Questions.Count.ToString();
             Answered = 0;
 
+            // Set Timer
             timer = new DispatcherTimer();
             double time = (double)exam.TotalTime;
             remainingTime = TimeSpan.FromHours(time);
@@ -92,42 +94,52 @@ namespace TelHai.CS.Client.View
 
         private void questionsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Set Title of Question
             Question currQuestion = (Question)questionsListBox.SelectedItem;
             this.txtTitle.Text = currQuestion.Text;
 
+            // Set all the Answers as RadioButtons and put in the StackPanel
             int questionIndex = this.questionsListBox.SelectedIndex;
             if (questionIndex < 0 || questionIndex >= Answers.Count)
             {
                 return;
             }
-            List<RadioButton> list = new List<RadioButton>();
-            if (Answers[questionIndex] == -1) // NOT answer yet
+            this.answersStackPanel.Children.Clear();
+            if (Answers[questionIndex] == string.Empty) // NOT answer yet
             {
                 foreach (var item in currQuestion.Answers)
                 {
-                    //RadioButton rb = new RadioButton { Content = new TextBlock { Text = item.Text, TextWrapping = TextWrapping.Wrap}, GroupName = currQuestion.Text };
-                    RadioButton rb = new RadioButton { Content = item, GroupName = currQuestion.Text };
-                    list.Add(rb);
+                    TextBlock tb = new TextBlock { Text = item.Text , TextWrapping = TextWrapping.Wrap};
+                    RadioButton rb = new RadioButton { Content = tb, GroupName = currQuestion.Text };
+                    rb.Checked += RadioButton_Checked;
+                    rb.VerticalContentAlignment = VerticalAlignment.Center;
+                    rb.Margin = new Thickness(10);
+                    this.answersStackPanel.Children.Add(rb);
                 }
             }
             else // Have an Answer
             {
                 for (int i = 0; i < currQuestion.Answers.Count; i++)
                 {
-                    if (Answers[questionIndex] == i)
+                    TextBlock tb = new TextBlock { Text = currQuestion.Answers[i].Text, TextWrapping = TextWrapping.Wrap };
+                    if (Answers[questionIndex] == currQuestion.Answers[i].Text)
                     {
-                        RadioButton rb = new RadioButton { Content = currQuestion.Answers[i], GroupName = currQuestion.Text, IsChecked = true };
-                        list.Add(rb);
+                        RadioButton rb = new RadioButton { Content = tb, GroupName = currQuestion.Text, IsChecked = true };
+                        rb.Checked += RadioButton_Checked;
+                        rb.VerticalContentAlignment = VerticalAlignment.Center;
+                        rb.Margin = new Thickness(10);
+                        this.answersStackPanel.Children.Add(rb);
                     }
                     else
                     {
-                        RadioButton rb = new RadioButton { Content = currQuestion.Answers[i], GroupName = currQuestion.Text, IsChecked = false };
-                        list.Add(rb);
+                        RadioButton rb = new RadioButton { Content = tb, GroupName = currQuestion.Text, IsChecked = false };
+                        rb.Checked += RadioButton_Checked;
+                        rb.VerticalContentAlignment = VerticalAlignment.Center;
+                        rb.Margin = new Thickness(10);
+                        this.answersStackPanel.Children.Add(rb);
                     }
                 }
             }
-            this.answersListBox.ItemsSource = list;
-            this.answersListBox.SelectedIndex = -1;
         }
 
         private void prevQuestion_Click(object sender, RoutedEventArgs e)
@@ -148,30 +160,29 @@ namespace TelHai.CS.Client.View
             }
         }
 
-        private void answersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            if (this.answersListBox.SelectedIndex == -1)
-            {
-                return;
-            }
-            // SET THE SELECTED ITEM (RatioButton) checked!!!!
-            var answer = this.answersListBox.SelectedItem as RadioButton;
-            answer.IsChecked = true;
-
-
-            // ((RadioButton)this.answersListBox.SelectedItem).IsChecked = true;
             int index = this.questionsListBox.SelectedIndex;
-            if (Answers[index] == -1)
+            if (Answers[index] == string.Empty) // Not have answer yet to Question[index]
             {
                 if (Answered < exam.Questions.Count)
+                {
                     Answered++;
-            }
-            Answers[index] = this.answersListBox.SelectedIndex;
-            this.txtNumOfAnswered.Text = Answered.ToString();
+                    this.txtNumOfAnswered.Text = Answered.ToString();
 
-            // Set Question answered
-            ListBoxItem item = questionsListBox.ItemContainerGenerator.ContainerFromItem(questionsListBox.SelectedItem) as ListBoxItem;
-            item.Background = new SolidColorBrush(Colors.LightGreen);
+                    // Set Question answered
+                    ListBoxItem item = questionsListBox.ItemContainerGenerator.ContainerFromItem(questionsListBox.SelectedItem) as ListBoxItem;
+                    item.Background = new SolidColorBrush(Colors.LightGreen);
+                }
+            }
+            RadioButton rb = sender as RadioButton;
+            if (rb != null)
+            {
+                if (rb.IsChecked.Value)
+                {
+                    Answers[index] = rb.Content.ToString();
+                }
+            }
         }
 
         private async void finishExamBtn_Click(object sender, RoutedEventArgs e)
@@ -179,15 +190,8 @@ namespace TelHai.CS.Client.View
             int totalTrue = 0;
             for (int i = 0; i < exam.Questions.Count; i++)
             {
-                string correctAnswer = string.Empty;
-                foreach (var ans in exam.Questions[i].Answers)
-                {
-                    if (ans.IsCorrect)
-                    {
-                        correctAnswer = ans.Text;
-                    }
-                }
-                if (this.Answers[i] == -1) // not answered
+                string correctAnswer = exam.Questions[i].Answers.Where(ans => ans.IsCorrect).FirstOrDefault().Text;
+                if (this.Answers[i] == string.Empty) // not answered
                 {
                     Error err = new Error
                     {
@@ -198,7 +202,7 @@ namespace TelHai.CS.Client.View
                     grade.Errors.Add(err);
                     continue;
                 }
-                if (exam.Questions[i].Answers[this.Answers[i]].IsCorrect) // correct Answer
+                if (this.Answers[i] == correctAnswer) // correct Answer
                 {
                     totalTrue += 1;
                 }
@@ -207,7 +211,7 @@ namespace TelHai.CS.Client.View
                     Error err = new Error
                     {
                         QuestionTitle = exam.Questions[i].Text,
-                        ChosenAnswer = exam.Questions[i].Answers[this.Answers[i]].Text,
+                        ChosenAnswer = this.Answers[i],
                         CorrectAnswer = correctAnswer
                     };
                     grade.Errors.Add(err);

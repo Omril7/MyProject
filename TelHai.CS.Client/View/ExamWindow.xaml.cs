@@ -171,16 +171,18 @@ namespace TelHai.CS.Client.View
                     this.txtNumOfAnswered.Text = Answered.ToString();
 
                     // Set Question answered
-                    ListBoxItem item = questionsListBox.ItemContainerGenerator.ContainerFromItem(questionsListBox.SelectedItem) as ListBoxItem;
-                    item.Background = new SolidColorBrush(Colors.LightGreen);
+                    ListBoxItem? item = questionsListBox.ItemContainerGenerator.ContainerFromItem(questionsListBox.SelectedItem) as ListBoxItem;
+                    if(item != null)
+                        item.Background = new SolidColorBrush(Colors.LightGreen);
                 }
             }
             RadioButton rb = sender as RadioButton;
             if (rb != null)
             {
-                if (rb.IsChecked.Value)
+                TextBlock tb = rb.Content as TextBlock;
+                if (tb != null && rb.IsChecked.Value)
                 {
-                    Answers[index] = rb.Content.ToString();
+                    Answers[index] = tb.Text;
                 }
             }
         }

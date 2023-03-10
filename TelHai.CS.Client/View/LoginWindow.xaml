@@ -5,15 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TelHai.CS.Client.View"
         mc:Ignorable="d"  WindowStartupLocation ="CenterScreen"
-        Title="Login" Height="550" Width="800" Icon="/View/icon.png">
+        Title="LOG IN" Height="550" Width="800" Icon="/View/icon.png">
+
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/View/background.png"/>
         </Grid.Background>
 
         <StackPanel Width="250" Orientation="Vertical" Margin="0,35,0,0">
-            <TextBlock Text="Please Login" Foreground="White" FontSize="25" FontWeight="Medium" HorizontalAlignment="Center"/>
-            <TextBlock Text="This is Omri Leizerovitch and Yuval Rotem    E-Test" Foreground="DarkGray" Margin="0,5,0,0" 
+            <TextBlock Text="Please Login" Foreground="LightGray" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Text="This is Omri Leizerovitch and Yuval Rotem" Foreground="DarkGray" Margin="0,5,0,0" 
+                       FontSize="12" FontWeight="Medium" TextWrapping="Wrap" TextAlignment="Center"/>
+            <TextBlock Text="E-Test" Foreground="DarkGray" Margin="0,5,0,0" 
                        FontSize="12" FontWeight="Medium" TextWrapping="Wrap" TextAlignment="Center"/>
             <TextBlock Text="Username" Foreground="DarkGray" Margin="0,35,0,0" FontSize="12" FontWeight="Medium"/>
             <TextBox Name="txtUser" FontSize="13" FontWeight="Medium" Foreground="DarkGray" CaretBrush="DarkGray" 

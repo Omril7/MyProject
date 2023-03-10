@@ -30,28 +30,6 @@ namespace TelHai.CS.ServerAPI.Controllers
         {
             return await _context.Exams.Include(e => e.Questions)
                                        .ThenInclude(q => q.Answers)
-                                       /*
-                                       .Select(e => new Exam
-                                       {
-                                           Id = e.Id,
-                                           Name = e.Name,
-                                           _id = e._id,
-                                           DateDay = e.DateDay,
-                                           DateHour = e.DateHour,
-                                           DateMinute = e.DateMinute,
-                                           DateMonth = e.DateMonth,
-                                           DateYear = e.DateYear,
-                                           TeacherName = e.TeacherName,
-                                           TotalTime = e.TotalTime,
-                                           IsOrderRandom = e.IsOrderRandom,
-                                           Questions = e.Questions.Select(q => new Question
-                                           {
-                                               Id = q.Id,
-                                               Text = q.Text,
-                                               Answers = q.Answers
-                                           }).ToList()
-                                       })
-                                       */
                                        .ToListAsync();
         }
 
@@ -59,14 +37,27 @@ namespace TelHai.CS.ServerAPI.Controllers
         [HttpGet("{examId}")]
         public async Task<ActionResult<Exam>> GetExam(int examId)
         {
-            var exam = await _context.Exams.Include(e => e.Questions).ThenInclude(q => q.Answers).Include(e => e.Grades).ThenInclude(g => g.Errors).FirstOrDefaultAsync(e => e.Id == examId);
-
+            var exam = await _context.Exams.Include(e => e.Questions)
+                                           .ThenInclude(q => q.Answers)
+                                           .Include(e => e.Grades)
+                                           .ThenInclude(g => g.Errors)
+                                           .FirstOrDefaultAsync(e => e.Id == examId);
             if (exam == null)
             {
                 return NotFound();
             }
 
             return exam;
+        }
+
+        // POST: API/Exams
+        [HttpPost]
+        public async Task<ActionResult<Exam>> PostExam(Exam exam)
+        {
+            _context.Exams.Add(exam);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetExam", new { id = exam.Id }, exam);
         }
 
         // PUT: API/Exams/{examId}
@@ -97,16 +88,6 @@ namespace TelHai.CS.ServerAPI.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: API/Exams
-        [HttpPost]
-        public async Task<ActionResult<Exam>> PostExam(Exam exam)
-        {
-            _context.Exams.Add(exam);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetExam", new { id = exam.Id }, exam);
         }
 
         // DELETE: API/Exams/{examId}

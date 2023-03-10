@@ -66,7 +66,6 @@ namespace TelHai.CS.Client.View
                 }
                 
                 // CHECk if the time is right for exam
-                /*
                 int hour = (int)(exam.TotalTime);
                 int minute = (int)((exam.TotalTime - hour) * 60);
                 hour += (int)exam.DateHour;
@@ -96,7 +95,6 @@ namespace TelHai.CS.Client.View
                     MessageBox.Show(msg, "WAIT", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-                */
                 ExamWindow ew = new ExamWindow(exam, StudentName, Id);
                 ew.ShowDialog();
             }

@@ -222,14 +222,13 @@ namespace TelHai.CS.Client.View
             grade._grade = ((double)totalTrue / (double)Answers.Count) * 100;
             grade._grade = Math.Round(grade._grade, 2);
 
-            await HttpExamsRepository.Instance.CreateGradeAsync(exam.Id, grade);
-
             if (Answered != exam.Questions.Count) // Too Early
             {
                 string msg = "NOT all Questions are answered, are you sure you finished?";
                 MessageBoxResult res = MessageBox.Show(msg, "WAIT", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (res == MessageBoxResult.Yes)
                 {
+                    await HttpExamsRepository.Instance.CreateGradeAsync(exam.Id, grade);
                     Close();
                 }
             }
@@ -239,9 +238,11 @@ namespace TelHai.CS.Client.View
                 MessageBoxResult res = MessageBox.Show(msg, "WAIT", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (res == MessageBoxResult.Yes)
                 {
+                    await HttpExamsRepository.Instance.CreateGradeAsync(exam.Id, grade);
                     Close();
                 }
             }
+
         }
     }
 }

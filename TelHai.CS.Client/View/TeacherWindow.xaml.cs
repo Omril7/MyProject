@@ -41,8 +41,8 @@ namespace TelHai.CS.Client.View
         private void txtSearchExam_TextChanged(object sender, TextChangedEventArgs e)
         {
             List<Exam> list = new List<Exam>();
-            string examName = this.txtSearchExam.Text;
-            list = _exams.Where(s => s.ToString().Contains(examName)).ToList();
+            string query = this.txtSearchExam.Text;
+            list = _exams.Where(s => s.ToString().ToLower().Contains(query)).ToList();
             this.examsListBox.Items.Clear();
             foreach (Exam exam in list)
             {

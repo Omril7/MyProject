@@ -99,7 +99,7 @@ namespace TelHai.CS.Client.View
 
         private async void removeQuestionBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (this.questionsListBox.Items.Count > 0)
+            if (this.questionsListBox.Items.Count > 0 && this.questionsListBox.SelectedIndex != -1)
             {
                 await HttpExamsRepository.Instance.DeleteQuestionAsync(MyExam.Id, ((Question)this.questionsListBox.SelectedItem).Id);
                 this.questionsListBox.Items.Remove(this.questionsListBox.SelectedItem);

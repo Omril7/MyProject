@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,10 +29,10 @@ namespace TelHai.CS.Client.View
         {
             InitializeComponent();
 
-            this.Loaded += Load;
+            this.Loaded += loadFunc;
         }
 
-        private async void Load(object sender, RoutedEventArgs e)
+        private async void loadFunc(object sender, RoutedEventArgs e)
         {
             _exams = await HttpExamsRepository.Instance.GetAllExamsAsync();
             foreach (var exam in _exams)
@@ -57,15 +60,8 @@ namespace TelHai.CS.Client.View
             if (examInitWindow.Use)
             {
                 Exam exam = examInitWindow.MyExam;
-                await HttpExamsRepository.Instance.CreateExamAsync(exam);
-            }
-            // Reload 
-            _exams.Clear();
-            _exams = await HttpExamsRepository.Instance.GetAllExamsAsync();
-            this.examsListBox.Items.Clear();
-            foreach (var ex in _exams)
-            {
-                this.examsListBox.Items.Add(ex);
+                this.tempListBox.Items.Add(exam);
+                Save(exam);
             }
         }
 
@@ -92,7 +88,29 @@ namespace TelHai.CS.Client.View
             }
             else
             {
-                MessageBox.Show("Please select Exam!");
+                MessageBox.Show("Please select Exam from DB!");
+            }
+        }
+
+        private async void deleteExamBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.examsListBox.Items.Count > 0 && this.examsListBox.SelectedIndex > -1)
+            {
+                Exam exam = (Exam)this.examsListBox.SelectedItem;
+                await HttpExamsRepository.Instance.DeleteExamAsync(exam.Id);
+                
+                // Reload 
+                _exams.Clear();
+                _exams = await HttpExamsRepository.Instance.GetAllExamsAsync();
+                this.examsListBox.Items.Clear();
+                foreach (var ex in _exams)
+                {
+                    this.examsListBox.Items.Add(ex);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select Exam from DB!");
             }
         }
 
@@ -107,9 +125,63 @@ namespace TelHai.CS.Client.View
             }
             else
             {
-                MessageBox.Show("Please select Exam!");
+                MessageBox.Show("Please select Exam from DB!");
             }
         }
 
+        private void loadExamBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string jsonPath = openFileDialog.FileName;
+                Load(jsonPath);
+            }
+        }
+
+        private async void addToDbBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.tempListBox.SelectedIndex == -1) return;
+            Exam exam = this.tempListBox.SelectedItem as Exam;
+            if(exam != null)
+            {
+                await HttpExamsRepository.Instance.CreateExamAsync(exam);
+            }
+            this.tempListBox.Items.RemoveAt(this.tempListBox.SelectedIndex);
+            // Reload 
+            _exams.Clear();
+            _exams = await HttpExamsRepository.Instance.GetAllExamsAsync();
+            this.examsListBox.Items.Clear();
+            foreach (var ex in _exams)
+            {
+                this.examsListBox.Items.Add(ex);
+            }
+        }
+
+        public void Save(Exam exam)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string jsonExamsString = JsonSerializer.Serialize<Exam>(exam, options);
+
+            if (!Directory.Exists("AppData"))
+            {
+                Directory.CreateDirectory("AppData");
+            }
+            string path = "AppData/" + exam.Name + ".json";
+            File.WriteAllText(path, jsonExamsString);
+        }
+
+        public void Load(string path)
+        {
+            if (path != string.Empty)
+            {
+                string examsText = File.ReadAllText(path);
+                var exam = JsonSerializer.Deserialize<Exam>(examsText);
+
+                this.tempListBox.Items.Add(exam);
+            }
+        }
+
+        
     }
 }

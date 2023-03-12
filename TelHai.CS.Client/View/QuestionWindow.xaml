@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TelHai.CS.Client.View"
-        mc:Ignorable="d" WindowStartupLocation ="CenterScreen"
+        mc:Ignorable="d" WindowStartupLocation ="CenterScreen" ResizeMode="NoResize"
         Title="Create Question" Height="550" Width="800" Icon="/View/icon.png">
     <Grid>
         <Grid.Background>
@@ -82,7 +82,7 @@
 
         <ListBox Name="optionsListBox" Grid.Row="3" Grid.Column="1" Margin="10,10,10,10">
             <ListBox.Resources>
-                <Style TargetType="{x:Type TextBlock}">
+                <Style TargetType="ListBoxItem">
                     <Setter Property="Margin" Value="0,5,0,0"/>
                 </Style>
             </ListBox.Resources>

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TelHai.CS.Client.View"
-        mc:Ignorable="d" WindowStartupLocation ="CenterScreen"
+        mc:Ignorable="d" WindowStartupLocation ="CenterScreen" ResizeMode="NoResize"
         Title="Teacher" Height="550" Width="800" Icon="/View/icon.png">
     <Grid>
         <Grid.Background>
@@ -15,8 +15,8 @@
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <StackPanel>
             <TextBlock Text="Find Exam" Foreground="#462AD8" Margin="10,15,0,0" FontSize="12" FontWeight="Medium"/>
@@ -26,6 +26,26 @@
         </StackPanel>
         <StackPanel Grid.Row="1">
             <Button Name="addExamBtn" Content="Add Exam" Margin="10,15,10,0" Foreground="White" Click="addExamBtn_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#462AD8"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="150" Height="40" CornerRadius="20" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button Name="loadExamBtn" Content="Load Exam" Margin="10,15,10,0" Foreground="White" Click="loadExamBtn_Click">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Background" Value="#462AD8"/>
@@ -65,6 +85,26 @@
                 </Button.Template>
             </Button>
 
+            <Button Name="deleteExamBtn" Content="Delete Exam" Margin="10,15,10,0" Foreground="White" Click="deleteExamBtn_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#462AD8"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="150" Height="40" CornerRadius="20" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            
             <Button Name="statsExamBtn" Content="Exam Stats" Margin="10,15,10,0" Foreground="White" Click="statsExamBtn_Click">
                 <Button.Style>
                     <Style TargetType="Button">
@@ -87,13 +127,53 @@
 
         </StackPanel>
 
-        <ListBox Name="examsListBox" Grid.Row="1" Grid.Column="1" BorderThickness="2" Margin="10">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="Height" Value="30"/>
-                    <Setter Property="FontSize" Value="20"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListBox>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Temp Exams" VerticalAlignment="Bottom" FontSize="20" FontWeight="Bold" HorizontalAlignment="Right"/>
+            <Label Grid.Column="2" Content="DB Exams" VerticalAlignment="Bottom" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left"/>
+        </Grid>
+        
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+            <ListBox Name="tempListBox" BorderThickness="2" Margin="10" Height="410" Width="250">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Height" Value="25"/>
+                        <Setter Property="FontSize" Value="15"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+            <Button Name="addToDbBtn" Content="=>" Foreground="White" Click="addToDbBtn_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#462AD8"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="50" Height="40" CornerRadius="20" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <ListBox Name="examsListBox" BorderThickness="2" Margin="10" Height="410" Width="250">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Height" Value="25"/>
+                        <Setter Property="FontSize" Value="15"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </StackPanel>
+        
     </Grid>
 </Window>

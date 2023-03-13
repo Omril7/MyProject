@@ -74,9 +74,11 @@
 
             <StackPanel Name="infoStckPnl" Orientation="Vertical" Grid.Row="1" Grid.Column="1">
                 <Label Content="Selected Answer" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
-                <Label Name="txtSelected" Content="{Binding}" VerticalAlignment="Center" FontSize="15" Foreground="Red"/>
+                <TextBlock Name="txtSelected" Text="{Binding}" VerticalAlignment="Center" FontSize="15" 
+                       Foreground="Red" FontWeight="Bold" TextWrapping="Wrap"/>
                 <Label Content="Correct Answer" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
-                <Label Name="txtCorrect" Content="{Binding}" VerticalAlignment="Center" FontSize="15" Foreground="Green"/>
+                <TextBlock Name="txtCorrect" Text="{Binding}" VerticalAlignment="Center" FontSize="15" 
+                       Foreground="Green" FontWeight="Bold" TextWrapping="Wrap"/>
             </StackPanel>
 
         </Grid>

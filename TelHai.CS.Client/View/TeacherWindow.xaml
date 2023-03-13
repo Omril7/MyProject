@@ -19,13 +19,13 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <StackPanel>
-            <TextBlock Text="Find Exam" Foreground="#462AD8" Margin="10,15,0,0" FontSize="12" FontWeight="Medium"/>
+            <TextBlock Text="Find Exam in DB" Foreground="#462AD8" Margin="10,15,0,0" FontSize="12" FontWeight="Medium"/>
             <TextBox Name="txtSearchExam" FontSize="13" FontWeight="Medium" Foreground="Black" CaretBrush="DarkGray" 
                      BorderBrush="DarkGray" Height="28" VerticalContentAlignment="Center" Margin="10,15,10,0" 
                      TextChanged="txtSearchExam_TextChanged"/>
         </StackPanel>
         <StackPanel Grid.Row="1">
-            <Button Name="addExamBtn" Content="Add Exam" Margin="10,15,10,0" Foreground="White" Click="addExamBtn_Click">
+            <Button Name="addExamBtn" Content="Add Temp Exam" Margin="10,15,10,0" Foreground="White" Click="addExamBtn_Click">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Background" Value="#462AD8"/>
@@ -45,7 +45,7 @@
                 </Button.Template>
             </Button>
 
-            <Button Name="loadExamBtn" Content="Load Exam" Margin="10,15,10,0" Foreground="White" Click="loadExamBtn_Click">
+            <Button Name="loadExamBtn" Content="Load Temp Exam" Margin="10,15,10,0" Foreground="White" Click="loadExamBtn_Click">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Background" Value="#462AD8"/>
@@ -65,7 +65,7 @@
                 </Button.Template>
             </Button>
 
-            <Button Name="updateExamBtn" Content="Update Exam" Margin="10,15,10,0" Foreground="White" Click="updateExamBtn_Click">
+            <Button Name="updateExamBtn" Content="Update Exam from DB" Margin="10,15,10,0" Foreground="White" Click="updateExamBtn_Click">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Background" Value="#462AD8"/>
@@ -85,7 +85,7 @@
                 </Button.Template>
             </Button>
 
-            <Button Name="deleteExamBtn" Content="Delete Exam" Margin="10,15,10,0" Foreground="White" Click="deleteExamBtn_Click">
+            <Button Name="deleteExamBtn" Content="Delete Exam from DB" Margin="10,15,10,0" Foreground="White" Click="deleteExamBtn_Click">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Background" Value="#462AD8"/>
@@ -105,7 +105,7 @@
                 </Button.Template>
             </Button>
             
-            <Button Name="statsExamBtn" Content="Exam Stats" Margin="10,15,10,0" Foreground="White" Click="statsExamBtn_Click">
+            <Button Name="statsExamBtn" Content="DB Exam Stats" Margin="10,15,10,0" Foreground="White" Click="statsExamBtn_Click">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Background" Value="#462AD8"/>

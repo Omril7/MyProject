@@ -60,8 +60,8 @@ namespace TelHai.CS.Client.View
             }
             this.errorsListBox.Items.Clear();
             this.errorsListBox.SelectedIndex = -1;
-            this.txtSelected.Content = string.Empty;
-            this.txtCorrect.Content = string.Empty;
+            this.txtSelected.Text = string.Empty;
+            this.txtCorrect.Text = string.Empty;
             if (grade.Errors.Count > 0)
             {
                 foreach (var error in grade.Errors)
@@ -78,8 +78,8 @@ namespace TelHai.CS.Client.View
                 return;
             }
             Error error = (Error)this.errorsListBox.SelectedItem;
-            this.txtSelected.Content = error.ChosenAnswer;
-            this.txtCorrect.Content = error.CorrectAnswer;
+            this.txtSelected.Text = error.ChosenAnswer;
+            this.txtCorrect.Text = error.CorrectAnswer;
         }
     }
 }

@@ -45,7 +45,7 @@ namespace TelHai.CS.Client.View
         {
             List<Exam> list = new List<Exam>();
             string query = this.txtSearchExam.Text;
-            list = _exams.Where(s => s.ToString().ToLower().Contains(query)).ToList();
+            list = _exams.Where(s => s.ToString().ToLower().Contains(query.ToLower())).ToList();
             this.examsListBox.Items.Clear();
             foreach (Exam exam in list)
             {
@@ -143,6 +143,19 @@ namespace TelHai.CS.Client.View
         {
             if (this.tempListBox.SelectedIndex == -1) return;
             Exam exam = this.tempListBox.SelectedItem as Exam;
+            foreach(var item in this.examsListBox.Items)
+            {
+                Exam temp = item as Exam;
+                if(temp != null)
+                {
+                    if(temp._id == exam._id)
+                    {
+                        string msg = "The DB is already contain Exam with the Id: " + exam._id;
+                        MessageBox.Show(msg);
+                        return;
+                    }
+                }
+            }
             if(exam != null)
             {
                 await HttpExamsRepository.Instance.CreateExamAsync(exam);

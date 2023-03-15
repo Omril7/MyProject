@@ -18,13 +18,13 @@ namespace TelHai.CS.ServerAPI.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Question>()
-                .HasMany(q => q.Answers)
+            modelBuilder.Entity<Exam>()
+                .HasMany(e => e.Questions)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Exam>()
-                .HasMany(e => e.Questions)
+            modelBuilder.Entity<Question>()
+                .HasMany(q => q.Answers)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 

@@ -46,7 +46,7 @@ namespace TelHai.CS.Client.View
         {
             List<Exam> list = new List<Exam>();
             string query = this.txtSearchExam.Text;
-            list = _exams.Where(s => s.ToString().ToLower().Contains(query)).ToList();
+            list = _exams.Where(s => s.ToString().ToLower().Contains(query.ToLower())).ToList();
             this.examsListBox.Items.Clear();
             foreach (Exam exam in list)
             {

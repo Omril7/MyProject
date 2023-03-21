@@ -87,6 +87,7 @@ namespace TelHai.CS.Client.View
                 remainingTime = TimeSpan.Zero;
                 timer.Stop();
                 MessageBox.Show("Time is over we sorry");
+                SubmitExam();
                 this.Close();
             }
             timeLabel.Content = remainingTime.ToString(@"hh\:mm\:ss");
@@ -197,6 +198,31 @@ namespace TelHai.CS.Client.View
 
         private async void finishExamBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (Answered != exam.Questions.Count) // Too Early
+            {
+                string msg = "NOT all Questions are answered, are you sure you finished?";
+                MessageBoxResult res = MessageBox.Show(msg, "WAIT", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (res == MessageBoxResult.Yes)
+                {
+                    SubmitExam();
+                    Close();
+                }
+            }
+            else
+            {
+                string msg = "Are you sure you finished?";
+                MessageBoxResult res = MessageBox.Show(msg, "WAIT", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (res == MessageBoxResult.Yes)
+                {
+                    SubmitExam();
+                    Close();
+                }
+            }
+
+        }
+    
+        private async void SubmitExam()
+        {
             int totalTrue = 0;
             for (int i = 0; i < exam.Questions.Count; i++)
             {
@@ -229,28 +255,7 @@ namespace TelHai.CS.Client.View
             }
             grade._grade = ((double)totalTrue / (double)Answers.Count) * 100;
             grade._grade = Math.Round(grade._grade, 2);
-
-            if (Answered != exam.Questions.Count) // Too Early
-            {
-                string msg = "NOT all Questions are answered, are you sure you finished?";
-                MessageBoxResult res = MessageBox.Show(msg, "WAIT", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (res == MessageBoxResult.Yes)
-                {
-                    await HttpExamsRepository.Instance.CreateGradeAsync(exam.Id, grade);
-                    Close();
-                }
-            }
-            else
-            {
-                string msg = "Are you sure you finished?";
-                MessageBoxResult res = MessageBox.Show(msg, "WAIT", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (res == MessageBoxResult.Yes)
-                {
-                    await HttpExamsRepository.Instance.CreateGradeAsync(exam.Id, grade);
-                    Close();
-                }
-            }
-
+            await HttpExamsRepository.Instance.CreateGradeAsync(exam.Id, grade);
         }
     }
 }

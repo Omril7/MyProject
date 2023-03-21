@@ -39,7 +39,7 @@
             <TextBlock Name="txtTitle" FontSize="20" FontWeight="Medium" Margin="10"
                    HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"
                    TextWrapping="Wrap" TextAlignment="Center" Width="450"/>
-            <StackPanel Name="answersStackPanel" Margin="50"/>
+            <StackPanel Name="answersStackPanel" Margin="50,0,50,0"/>
         </StackPanel>
         
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" 
@@ -68,7 +68,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                               Height="40" TextAlignment="Justify" FontSize="15" TextWrapping="Wrap"/>
+                               Height="auto" TextAlignment="Justify" FontSize="15" TextWrapping="Wrap"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

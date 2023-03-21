@@ -8,7 +8,11 @@
         Title="Create Question" Height="550" Width="800" Icon="/View/icon.png">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/View/background.jpg"/>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#ababab" Offset="0"/>
+                <GradientStop Color="#d0d0d0" Offset="0.75"/>
+                <GradientStop Color="#7e7e7e" Offset="1"/>
+            </LinearGradientBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>

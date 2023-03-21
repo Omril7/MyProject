@@ -31,17 +31,42 @@ namespace TelHai.CS.Client.View
 
             if(user == string.Empty || pass == string.Empty)
             {
-                MessageBox.Show("Please Enter User & Password!");
+                string msg = "Please enter Username and Password";
+                MessageBox.Show(msg);
                 return;
             }
             if (studentButton.IsChecked.Value)
             {
+                //if (user.ToLower() == "student" && pass == "12345678")
+                //{
+                //    StudentWindow sw = new StudentWindow();
+                //    this.Close();
+                //    sw.ShowDialog();
+                //}
+                //else
+                //{
+                //    string msg = "Wrong details to log in";
+                //    MessageBox.Show(msg);
+                //    return;
+                //}
                 StudentWindow sw = new StudentWindow();
                 this.Close();
                 sw.ShowDialog();
             }
             else if (teacherButton.IsChecked.Value)
             {
+                //if (user.ToLower() == "admin" && pass == "admin")
+                //{
+                //    TeacherWindow lw = new TeacherWindow();
+                //    this.Close();
+                //    lw.ShowDialog();
+                //}
+                //else
+                //{
+                //    string msg = "Wrong details to log in";
+                //    MessageBox.Show(msg);
+                //    return;
+                //}
                 TeacherWindow lw = new TeacherWindow();
                 this.Close();
                 lw.ShowDialog();

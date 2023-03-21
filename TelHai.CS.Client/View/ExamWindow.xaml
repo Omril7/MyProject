@@ -8,7 +8,11 @@
         Title="ExamWindow" Height="550" Width="800" Icon="/View/icon.png">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/View/background.jpg"/>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#ababab" Offset="0"/>
+                <GradientStop Color="#d0d0d0" Offset="0.75"/>
+                <GradientStop Color="#7e7e7e" Offset="1"/>
+            </LinearGradientBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
@@ -69,8 +73,10 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="50,0,0,0">
-            <Button Name="prevQuestion" Content="&lt;" Margin="10,5,5,5" Foreground="White" Click="prevQuestion_Click">
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,15,0">
+            <Button Name="prevQuestion" Content="5" Margin="10,5,5,5" Foreground="White" Click="prevQuestion_Click" 
+                    FontFamily="Marlett" FontSize="25">
+                
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Background" Value="#462AD8"/>
@@ -89,7 +95,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button Name="nextQuestion" Content=">" Margin="5,5,10,5" Foreground="White" Click="nextQuestion_Click">
+            <Button Name="nextQuestion" Content="6" Margin="5,5,10,5" Foreground="White" Click="nextQuestion_Click"
+                    FontFamily="Marlett" FontSize="25">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Background" Value="#462AD8"/>

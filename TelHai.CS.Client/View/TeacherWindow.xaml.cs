@@ -53,7 +53,7 @@ namespace TelHai.CS.Client.View
             }
         }
 
-        private async void addExamBtn_Click(object sender, RoutedEventArgs e)
+        private void addExamBtn_Click(object sender, RoutedEventArgs e)
         {
             ExamBuildWindow examInitWindow = new ExamBuildWindow(new Exam());
             examInitWindow.ShowDialog();

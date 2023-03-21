@@ -8,15 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="View\background.jpg" />
     <None Remove="View\background.png" />
+    <None Remove="View\icon.ico" />
     <None Remove="View\icon.png" />
     <None Remove="View\key-icon.png" />
     <None Remove="View\user-icon.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="View\background.jpg" />
     <Resource Include="View\background.png" />
     <Resource Include="View\icon.png" />
     <Resource Include="View\key-icon.png" />

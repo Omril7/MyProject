@@ -109,7 +109,7 @@ namespace TelHai.CS.Client.View
             {
                 foreach (var item in currQuestion.Answers)
                 {
-                    TextBlock tb = new TextBlock { Text = item.Text , TextWrapping = TextWrapping.Wrap};
+                    TextBlock tb = new TextBlock { Text = item.Text , TextWrapping = TextWrapping.Wrap , FontSize = 20};
                     RadioButton rb = new RadioButton { Content = tb, GroupName = currQuestion.Text };
                     rb.Checked += RadioButton_Checked;
                     rb.VerticalContentAlignment = VerticalAlignment.Center;
@@ -121,7 +121,7 @@ namespace TelHai.CS.Client.View
             {
                 for (int i = 0; i < currQuestion.Answers.Count; i++)
                 {
-                    TextBlock tb = new TextBlock { Text = currQuestion.Answers[i].Text, TextWrapping = TextWrapping.Wrap };
+                    TextBlock tb = new TextBlock { Text = currQuestion.Answers[i].Text, TextWrapping = TextWrapping.Wrap , FontSize = 20};
                     if (Answers[questionIndex] == currQuestion.Answers[i].Text)
                     {
                         RadioButton rb = new RadioButton { Content = tb, GroupName = currQuestion.Text, IsChecked = true };
@@ -149,14 +149,22 @@ namespace TelHai.CS.Client.View
             {
                 this.questionsListBox.SelectedIndex--;
             }
+            else
+            {
+                MessageBox.Show("This is the first question");
+            }
         }
 
         private void nextQuestion_Click(object sender, RoutedEventArgs e)
         {
             int curr = this.questionsListBox.SelectedIndex;
-            if (curr < this.questionsListBox.Items.Count)
+            if (curr < this.questionsListBox.Items.Count -1)
             {
                 this.questionsListBox.SelectedIndex++;
+            }
+            else
+            {
+                MessageBox.Show("This is the last question");
             }
         }
 

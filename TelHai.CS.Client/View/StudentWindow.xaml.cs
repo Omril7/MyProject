@@ -56,15 +56,29 @@ namespace TelHai.CS.Client.View
 
         private void starthExamBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (this.examsListBox.Items.Count > 0)
+            if ( this.examsListBox.Items.Count > 0 )
             {
                 Exam exam = (Exam)this.examsListBox.SelectedItem;
 
-                if(exam == null)
+                if( exam == null)
                 {
                     return;
                 }
-                
+
+                if (StudentName == null || Id == null)
+                {
+                    string msg = "Please enter Name and Id";
+                    MessageBox.Show(msg, "WAIT", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                //if (Id.Length != 9)
+                //{
+                //    string msg = "Id should be 9 letters";
+                //    MessageBox.Show(msg, "WAIT", MessageBoxButton.OK, MessageBoxImage.Information);
+                //    return;
+                //}
+
                 // CHECk if the time is right for exam
                 int hour = (int)(exam.TotalTime);
                 int minute = (int)((exam.TotalTime - hour) * 60);
@@ -91,7 +105,7 @@ namespace TelHai.CS.Client.View
                 }
                 else if(DateTime.Compare(examDateEnd, now) < 0) // Too Late
                 {
-                    string msg = "The Exam Time is OVER....";
+                    string msg = "The Exam Time is over....";
                     MessageBox.Show(msg, "WAIT", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }

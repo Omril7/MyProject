@@ -13,7 +13,7 @@ namespace TelHai.CS.ServerAPI.Models
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
-        public DbSet<Grade> Grades { get; set; }
+        public DbSet<Submit> Submissions { get; set; }
         public DbSet<Error> Errors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,13 +28,13 @@ namespace TelHai.CS.ServerAPI.Models
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Grade>()
+            modelBuilder.Entity<Submit>()
                 .HasMany(g => g.Errors)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Exam>()
-                .HasMany(e => e.Grades)
+                .HasMany(e => e.Submissions)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
         }

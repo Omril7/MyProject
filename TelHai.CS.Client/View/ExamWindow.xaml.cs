@@ -22,7 +22,7 @@ namespace TelHai.CS.Client.View
     /// </summary>
     public partial class ExamWindow : Window
     {
-        Grade grade { get; set; }
+        Submit submit { get; set; }
         public Exam exam { get; set; }
         public List<string> Answers { get; set; }
         public int Answered { get; set; }
@@ -35,7 +35,7 @@ namespace TelHai.CS.Client.View
             DataContext = this;
             this.exam = getExam;
             Answers = new List<string>();
-            grade = new Grade { StudentId = studentId, StudentName = studentName , ExamId = exam._id , _grade = 0};
+            submit = new Submit { StudentId = studentId, StudentName = studentName , ExamId = exam._id , _grade = 0};
             this.txtStudent.Text = studentName;
             this.txtId.Text = studentId;
             this.Loaded += Load;
@@ -196,7 +196,7 @@ namespace TelHai.CS.Client.View
             }
         }
 
-        private async void finishExamBtn_Click(object sender, RoutedEventArgs e)
+        private void finishExamBtn_Click(object sender, RoutedEventArgs e)
         {
             if (Answered != exam.Questions.Count) // Too Early
             {
@@ -235,7 +235,7 @@ namespace TelHai.CS.Client.View
                         ChosenAnswer = "Not selected answer",
                         CorrectAnswer = correctAnswer
                     };
-                    grade.Errors.Add(err);
+                    submit.Errors.Add(err);
                     continue;
                 }
                 if (this.Answers[i] == correctAnswer) // correct Answer
@@ -250,12 +250,12 @@ namespace TelHai.CS.Client.View
                         ChosenAnswer = this.Answers[i],
                         CorrectAnswer = correctAnswer
                     };
-                    grade.Errors.Add(err);
+                    submit.Errors.Add(err);
                 }
             }
-            grade._grade = ((double)totalTrue / (double)Answers.Count) * 100;
-            grade._grade = Math.Round(grade._grade, 2);
-            await HttpExamsRepository.Instance.CreateGradeAsync(exam.Id, grade);
+            submit._grade = ((double)totalTrue / (double)Answers.Count) * 100;
+            submit._grade = Math.Round(submit._grade, 2);
+            await HttpExamsRepository.Instance.CreateSubmitAsync(exam.Id, submit);
         }
     }
 }

@@ -21,11 +21,11 @@ namespace TelHai.CS.Client.View
     /// </summary>
     public partial class StatsWindow : Window
     {
-        public List<Grade> _grades;
+        public List<Submit> _grades;
         public StatsWindow(Exam exam)
         {
             InitializeComponent();
-            this._grades = exam.Grades;
+            this._grades = exam.Submissions;
             this.txtTitle.Content = exam.Name;
             this.txtId.Content = exam._id;
             this.Loaded += Load;
@@ -46,7 +46,7 @@ namespace TelHai.CS.Client.View
 
         private void studentsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Grade grade = (Grade)this.studentsListBox.SelectedItem; ;
+            Submit grade = (Submit)this.studentsListBox.SelectedItem; ;
             this.txtStudent.Content = grade.StudentName;
             this.txtStudentId.Content = grade.StudentId;
             this.txtStudentGrade.Content = grade._grade;

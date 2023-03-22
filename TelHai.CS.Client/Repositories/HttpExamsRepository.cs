@@ -117,16 +117,16 @@ namespace TelHai.CS.Client.Repositories
         /*
          * Grades
         */
-        public async Task<Grade> CreateGradeAsync(int examId, Grade grade)
+        public async Task<Submit> CreateSubmitAsync(int examId, Submit submit)
         {
-            var response = await clientApi.PostAsJsonAsync($"api/Exams/{examId}/Grades", grade);
+            var response = await clientApi.PostAsJsonAsync($"api/Exams/{examId}/Submissions", submit);
 
             if (!response.IsSuccessStatusCode)
             {
                 return null;
             }
 
-            return await response.Content.ReadFromJsonAsync<Grade>();
+            return await response.Content.ReadFromJsonAsync<Submit>();
         }
 
     }

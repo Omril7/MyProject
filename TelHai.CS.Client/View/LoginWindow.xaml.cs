@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,7 +38,7 @@ namespace TelHai.CS.Client.View
             }
             if (studentButton.IsChecked.Value)
             {
-                //if (user.ToLower() == "student" && pass == "12345678")
+                //if (AuthenticateStudent(user, pass))
                 //{
                 //    StudentWindow sw = new StudentWindow();
                 //    this.Close();
@@ -55,7 +56,7 @@ namespace TelHai.CS.Client.View
             }
             else if (teacherButton.IsChecked.Value)
             {
-                //if (user.ToLower() == "admin" && pass == "admin")
+                //if (AuthenticateTeacher(user, pass))
                 //{
                 //    TeacherWindow lw = new TeacherWindow();
                 //    this.Close();
@@ -71,6 +72,24 @@ namespace TelHai.CS.Client.View
                 this.Close();
                 lw.ShowDialog();
             }
+        }
+    
+        private bool AuthenticateStudent(string user, string pass)
+        {
+           if (user.ToLower() == "student" && pass == "12345678")
+           {
+                return true;
+           }
+            return false;
+        }
+
+        private bool AuthenticateTeacher(string user, string pass)
+        {
+            if (user.ToLower() == "admin" && pass == "admin")
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

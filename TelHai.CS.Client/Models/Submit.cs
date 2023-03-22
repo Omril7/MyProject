@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TelHai.CS.ServerAPI.Models
+namespace TelHai.CS.Client.Models
 {
-    public class Grade
+    public class Submit
     {
         public int Id { get; set; }
         public string StudentId { get; set; }
         public string StudentName { get; set; }
         public string ExamId { get; set; }
         public double _grade { get; set; }
-        public List<Error> Errors { get; set; }
-        public Grade()
+        public List<Error> Errors { get; set; } 
+        public Submit()
         {
             Errors = new List<Error>();
         }

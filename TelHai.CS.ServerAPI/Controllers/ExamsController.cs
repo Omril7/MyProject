@@ -39,8 +39,8 @@ namespace TelHai.CS.ServerAPI.Controllers
         {
             var exam = await _context.Exams.Include(e => e.Questions)
                                            .ThenInclude(q => q.Answers)
-                                           .Include(e => e.Grades)
-                                           .ThenInclude(g => g.Errors)
+                                           .Include(e => e.Submissions)
+                                           .ThenInclude(s => s.Errors)
                                            .FirstOrDefaultAsync(e => e.Id == examId);
             if (exam == null)
             {
@@ -152,21 +152,21 @@ namespace TelHai.CS.ServerAPI.Controllers
         /*
          * Grades
         */
-        // POST: API/Exams/{examId}/Grades
-        [HttpPost("{examId}/Grades")]
-        public async Task<ActionResult<Grade>> PostGrade(int examId, Grade grade)
+        // POST: API/Exams/{examId}/Submissions
+        [HttpPost("{examId}/Submissions")]
+        public async Task<ActionResult<Submit>> PostSubmit(int examId, Submit submit)
         {
             var exam = await _context.Exams.FindAsync(examId);
             if (exam == null)
             {
                 return NotFound();
             }
-            exam.Grades.Add(grade);
+            exam.Submissions.Add(submit);
 
-            _context.Grades.Add(grade);
+            _context.Submissions.Add(submit);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGrade", new { id = grade.Id }, grade);
+            return CreatedAtAction("GetSubmit", new { id = submit.Id }, submit);
         }
 
         private bool ExamExists(int id)

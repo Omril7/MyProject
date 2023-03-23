@@ -28,6 +28,8 @@ namespace TelHai.CS.Client.View
         {
             InitializeComponent();
 
+            StudentName = string.Empty;
+            Id = string.Empty;
             this.Loaded += Load;
 
             this.DataContext = this;
@@ -35,6 +37,7 @@ namespace TelHai.CS.Client.View
 
         private async void Load(object sender, RoutedEventArgs e)
         {
+            // Load all exams from DB and put in the ListBox
             _exams = await HttpExamsRepository.Instance.GetAllExamsAsync();
             foreach(var exam in _exams)
             {
@@ -44,6 +47,7 @@ namespace TelHai.CS.Client.View
 
         private void txtSearchExam_TextChanged(object sender, TextChangedEventArgs e)
         {
+            // Get the query from the TextBox and find the exams that contains this query
             List<Exam> list = new List<Exam>();
             string query = this.txtSearchExam.Text;
             list = _exams.Where(s => s.ToString().ToLower().Contains(query.ToLower())).ToList();
@@ -58,28 +62,29 @@ namespace TelHai.CS.Client.View
         {
             if ( this.examsListBox.Items.Count > 0 )
             {
+                // Get the selected exam
                 Exam exam = (Exam)this.examsListBox.SelectedItem;
 
                 if( exam == null)
                 {
                     return;
                 }
-
-                if (StudentName == null || Id == null)
+                // Check that the student name and id are correct
+                if (StudentName == string.Empty || Id == string.Empty)
                 {
                     string msg = "Please enter Name and Id";
                     MessageBox.Show(msg, "WAIT", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
 
-                //if (Id.Length != 9)
-                //{
-                //    string msg = "Id should be 9 letters";
-                //    MessageBox.Show(msg, "WAIT", MessageBoxButton.OK, MessageBoxImage.Information);
-                //    return;
-                //}
+                if (Id.Length != 9)
+                {
+                    string msg = "Id should be 9 letters";
+                    MessageBox.Show(msg, "WAIT", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
 
-                // CHECk if the time is right for exam
+                // Check if the time is right for exam (and not too early OR too late)
                 int hour = (int)(exam.TotalTime);
                 int minute = (int)((exam.TotalTime - hour) * 60);
                 hour += (int)exam.DateHour;
@@ -109,6 +114,7 @@ namespace TelHai.CS.Client.View
                     MessageBox.Show(msg, "WAIT", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
+                // Time is correct - start exam
                 ExamWindow ew = new ExamWindow(exam, StudentName, Id);
                 ew.ShowDialog();
             }

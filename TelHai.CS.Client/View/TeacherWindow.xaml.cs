@@ -34,6 +34,7 @@ namespace TelHai.CS.Client.View
 
         private async void loadFunc(object sender, RoutedEventArgs e)
         {
+            // Load all exams from DB and put in the ListBox
             _exams = await HttpExamsRepository.Instance.GetAllExamsAsync();
             foreach (var exam in _exams)
             {
@@ -43,6 +44,7 @@ namespace TelHai.CS.Client.View
 
         private void txtSearchExam_TextChanged(object sender, TextChangedEventArgs e)
         {
+            // Get the query from the TextBox and find the exams that contains this query
             List<Exam> list = new List<Exam>();
             string query = this.txtSearchExam.Text;
             list = _exams.Where(s => s.ToString().ToLower().Contains(query.ToLower())).ToList();
@@ -55,6 +57,7 @@ namespace TelHai.CS.Client.View
 
         private void addExamBtn_Click(object sender, RoutedEventArgs e)
         {
+            // Create local exam and save as json file
             ExamBuildWindow examInitWindow = new ExamBuildWindow(new Exam());
             examInitWindow.ShowDialog();
             if (examInitWindow.Use)
@@ -72,7 +75,7 @@ namespace TelHai.CS.Client.View
                 Exam exam = (Exam)this.examsListBox.SelectedItem;
                 ExamBuildWindow examBuildWindow = new ExamBuildWindow(exam);
                 examBuildWindow.ShowDialog();
-                if (examBuildWindow.Use)
+                if (examBuildWindow.Use) // if there is some changes in the ExamBuilder
                 {
                     exam = examBuildWindow.MyExam;
                     await HttpExamsRepository.Instance.UpdateExamAsync(exam.Id, exam);
@@ -96,16 +99,21 @@ namespace TelHai.CS.Client.View
         {
             if (this.examsListBox.Items.Count > 0 && this.examsListBox.SelectedIndex > -1)
             {
-                Exam exam = (Exam)this.examsListBox.SelectedItem;
-                await HttpExamsRepository.Instance.DeleteExamAsync(exam.Id);
-                
-                // Reload 
-                _exams.Clear();
-                _exams = await HttpExamsRepository.Instance.GetAllExamsAsync();
-                this.examsListBox.Items.Clear();
-                foreach (var ex in _exams)
+                string msg = "Are you sure you want to delete this exam?";
+                MessageBoxResult res = MessageBox.Show(msg, "WAIT", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (res == MessageBoxResult.Yes)
                 {
-                    this.examsListBox.Items.Add(ex);
+                    Exam exam = (Exam)this.examsListBox.SelectedItem;
+                    await HttpExamsRepository.Instance.DeleteExamAsync(exam.Id);
+
+                    // Reload 
+                    _exams.Clear();
+                    _exams = await HttpExamsRepository.Instance.GetAllExamsAsync();
+                    this.examsListBox.Items.Clear();
+                    foreach (var ex in _exams)
+                    {
+                        this.examsListBox.Items.Add(ex);
+                    }
                 }
             }
             else

@@ -92,6 +92,7 @@ namespace TelHai.CS.Client.View
             if (questionWindow.MyQuestion != null)
             {
                 this.questionsListBox.Items.Add(questionWindow.MyQuestion);
+                // Now we know that somthing is changed
                 Use = true;
                 await HttpExamsRepository.Instance.CreateQuestionAsync(MyExam.Id, questionWindow.MyQuestion);
             }
@@ -104,17 +105,20 @@ namespace TelHai.CS.Client.View
                 await HttpExamsRepository.Instance.DeleteQuestionAsync(MyExam.Id, ((Question)this.questionsListBox.SelectedItem).Id);
                 this.questionsListBox.Items.Remove(this.questionsListBox.SelectedItem);
                 this.questionsListBox.SelectedIndex = 0;
+                // Now we know that somthing is changed
                 Use = true;
             }
         }
 
         private void textChanged(object sender, TextChangedEventArgs e)
         {
+            // Now we know that somthing is changed
             Use = true;
         }
 
         private void IsRand_Checked(object sender, RoutedEventArgs e)
         {
+            // Now we know that somthing is changed
             Use = true;
         }
     }

@@ -59,17 +59,18 @@ namespace TelHai.CS.Client.View
                         .OrderBy(x => x.order).Select(x => x.value).ToList();
                 }
             }
-            
+            // Set the answers list to empty strings but the same size of the Question list
             for (int i = 0; i < this.exam.Questions.Count; i++)
             {
                 Answers.Add(string.Empty);
             }
+            // insert the questions to ListBox
             this.questionsListBox.ItemsSource = exam.Questions;
             this.questionsListBox.SelectedIndex = 0;
             this.txtNumOfQuestions.Text = exam.Questions.Count.ToString();
             Answered = 0;
 
-            // Set Timer
+            // Set Timer - start time
             timer = new DispatcherTimer();
             double time = (double)exam.TotalTime;
             remainingTime = TimeSpan.FromHours(time);
@@ -108,6 +109,7 @@ namespace TelHai.CS.Client.View
             this.answersStackPanel.Children.Clear();
             if (Answers[questionIndex] == string.Empty) // NOT answer yet
             {
+                // Set all answers as RadioButtons and add them to StackPanel
                 foreach (var item in currQuestion.Answers)
                 {
                     TextBlock tb = new TextBlock { Text = item.Text , TextWrapping = TextWrapping.Wrap , FontSize = 20};
@@ -120,6 +122,7 @@ namespace TelHai.CS.Client.View
             }
             else // Have an Answer
             {
+                // Set all answers as RadioButtons and add them to StackPanel (mark the answer that the student select before)
                 for (int i = 0; i < currQuestion.Answers.Count; i++)
                 {
                     TextBlock tb = new TextBlock { Text = currQuestion.Answers[i].Text, TextWrapping = TextWrapping.Wrap , FontSize = 20};
@@ -179,12 +182,13 @@ namespace TelHai.CS.Client.View
                     Answered++;
                     this.txtNumOfAnswered.Text = Answered.ToString();
 
-                    // Set Question answered
+                    // Set Question answered - paint in LightGreen the background of the question item in the ListBox
                     ListBoxItem? item = questionsListBox.ItemContainerGenerator.ContainerFromItem(questionsListBox.SelectedItem) as ListBoxItem;
                     if(item != null)
                         item.Background = new SolidColorBrush(Colors.LightGreen);
                 }
             }
+            // Save the selected answer
             RadioButton rb = sender as RadioButton;
             if (rb != null)
             {
@@ -223,6 +227,7 @@ namespace TelHai.CS.Client.View
     
         private async void SubmitExam()
         {
+            // Calculate grade
             int totalTrue = 0;
             for (int i = 0; i < exam.Questions.Count; i++)
             {
@@ -255,6 +260,7 @@ namespace TelHai.CS.Client.View
             }
             submit._grade = ((double)totalTrue / (double)Answers.Count) * 100;
             submit._grade = Math.Round(submit._grade, 2);
+            // Add submit to DB
             await HttpExamsRepository.Instance.CreateSubmitAsync(exam.Id, submit);
         }
     }

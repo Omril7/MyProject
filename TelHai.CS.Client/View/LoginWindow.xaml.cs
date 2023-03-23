@@ -38,39 +38,33 @@ namespace TelHai.CS.Client.View
             }
             if (studentButton.IsChecked.Value)
             {
-                //if (AuthenticateStudent(user, pass))
-                //{
-                //    StudentWindow sw = new StudentWindow();
-                //    this.Close();
-                //    sw.ShowDialog();
-                //}
-                //else
-                //{
-                //    string msg = "Wrong details to log in";
-                //    MessageBox.Show(msg);
-                //    return;
-                //}
-                StudentWindow sw = new StudentWindow();
-                this.Close();
-                sw.ShowDialog();
+                if (AuthenticateStudent(user, pass))
+                {
+                    StudentWindow sw = new StudentWindow();
+                    this.Close();
+                    sw.ShowDialog();
+                }
+                else
+                {
+                    string msg = "Wrong details to log in";
+                    MessageBox.Show(msg);
+                    return;
+                }
             }
             else if (teacherButton.IsChecked.Value)
             {
-                //if (AuthenticateTeacher(user, pass))
-                //{
-                //    TeacherWindow lw = new TeacherWindow();
-                //    this.Close();
-                //    lw.ShowDialog();
-                //}
-                //else
-                //{
-                //    string msg = "Wrong details to log in";
-                //    MessageBox.Show(msg);
-                //    return;
-                //}
-                TeacherWindow lw = new TeacherWindow();
-                this.Close();
-                lw.ShowDialog();
+                if (AuthenticateTeacher(user, pass))
+                {
+                    TeacherWindow lw = new TeacherWindow();
+                    this.Close();
+                    lw.ShowDialog();
+                }
+                else
+                {
+                    string msg = "Wrong details to log in";
+                    MessageBox.Show(msg);
+                    return;
+                }
             }
         }
     

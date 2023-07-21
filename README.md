@@ -4,8 +4,7 @@
     <img src="https://cdn.worldvectorlogo.com/logos/c--4.svg" width="36" height="36" alt="C#" />
   </a>
   <a href="https://dotnet.microsoft.com/en-us/" target="_blank" rel="noreferrer">
-    <img src="https://www.vectorlogo.zone/logos/dotnet/dotnet-icon.svg" 
-         width="36" height="36" alt=".NET" />
+    <img src="https://www.vectorlogo.zone/logos/dotnet/dotnet-icon.svg" width="36" height="36" alt=".NET" />
   </a>
 </p>
 
